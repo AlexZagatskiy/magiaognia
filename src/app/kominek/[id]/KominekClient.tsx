@@ -2,23 +2,17 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { getFireplaceById } from '@/data/fireplaces';
+import { Fireplace } from "@/data/fireplaces";
 
-interface Props {
-  params: {
-    id: string;
-  };
+export type DetailsGroup = 'opis' | 'specyfikacja' | 'zalety';
+
+interface KominekClientProps {
+  fireplace: Fireplace;
 }
 
-export default function KominekPage({ params }: Props) {
-  const fireplace = getFireplaceById(params.id);
+export default function KominekClient({ fireplace }: KominekClientProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [activeTab, setActiveTab] = useState<'opis' | 'specyfikacja' | 'zalety'>('opis');
-
-  if (!fireplace) {
-    notFound();
-  }
+  const [activeTab, setActiveTab] = useState<DetailsGroup>('opis');
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) =>
@@ -66,7 +60,7 @@ export default function KominekPage({ params }: Props) {
                   <div
                       className="w-full h-96 bg-cover bg-center bg-no-repeat"
                       style={{
-                        backgroundImage: `url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`
+                        backgroundImage: `url('https://images.unsplash.com/photo-1586299576722-e14abcdcfcb3?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`
                       }}
                   />
 
@@ -109,7 +103,7 @@ export default function KominekPage({ params }: Props) {
                             <div
                                 className="w-full h-full bg-cover bg-center bg-no-repeat"
                                 style={{
-                                  backgroundImage: `url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80')`
+                                  backgroundImage: `url('https://images.unsplash.com/photo-1631941150945-837cb81fc7e2?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`
                                 }}
                             />
                           </button>
@@ -226,7 +220,7 @@ export default function KominekPage({ params }: Props) {
               ].map((tab) => (
                   <button
                       key={tab.key}
-                      onClick={() => setActiveTab(tab.key as any)}
+                      onClick={() => setActiveTab(tab.key as DetailsGroup)}
                       className={`py-4 px-6 font-medium border-b-2 transition-colors ${
                           activeTab === tab.key
                               ? 'border-luxury-gold text-luxury-gold'
